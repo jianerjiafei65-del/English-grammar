@@ -91,7 +91,9 @@ button { cursor: pointer; }
 
 /* ===== ヘッダー ===== */
 .app-header {
-  padding: calc(14px + env(safe-area-inset-top)) var(--gutter) 10px;
+  padding-block: 14px 10px;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
   max-width: 1040px;
   margin: 0 auto;
 }
@@ -101,7 +103,9 @@ button { cursor: pointer; }
 .app-main {
   max-width: 1040px;
   margin: 0 auto;
-  padding: 0 var(--gutter) calc(var(--tabbar-h) + 24px + env(safe-area-inset-bottom));
+  padding-block: 0 calc(var(--tabbar-h) + 24px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
 }
 
 .panel[hidden] { display: none; }
@@ -111,7 +115,9 @@ button { cursor: pointer; }
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
   display: grid; grid-template-columns: repeat(3, 1fr);
   height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
   background: var(--surface);
   border-top: 1px solid var(--border);
 }
@@ -183,6 +189,7 @@ button { cursor: pointer; }
   border: 1px solid var(--border); border-radius: 12px;
   background: var(--surface); font-weight: 600;
 }
+.btn-text[data-armed="1"] { color: var(--ng); font-weight: 700; }
 .btn-text {
   min-height: 44px; padding: 8px 4px; border: 0; background: none;
   color: var(--text-sub); text-decoration: underline; font-size: .9rem;

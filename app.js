@@ -340,6 +340,7 @@
 
   // ===== 練習 =====
   function setPracticeAxis(axis) {
+    if (typeof disarmReset === "function") disarmReset();
     state.practiceAxis = axis;
     state.question = null;
     renderPracticeHeader();
@@ -482,9 +483,25 @@
     nextQuestion();
   });
 
+  // 確認ダイアログが使えない環境もあるため、2回押すと消去する方式にする
+  var resetTimer = null;
+  function disarmReset() {
+    var btn = $("practice-reset");
+    clearTimeout(resetTimer);
+    btn.dataset.armed = "";
+    btn.textContent = "成績をリセット";
+  }
+
   $("practice-reset").addEventListener("click", function () {
+    var btn = $("practice-reset");
     var axis = state.practiceAxis;
-    if (!window.confirm("「" + AXES[axis].label + "」の成績と間違えた文の記録を消去しますか？")) return;
+    if (btn.dataset.armed !== "1") {
+      btn.dataset.armed = "1";
+      btn.textContent = "もう一度押すと「" + AXES[axis].label + "」の成績を消去";
+      resetTimer = setTimeout(disarmReset, 4000);
+      return;
+    }
+    disarmReset();
     store.stats[axis] = { answered: 0, correct: 0, streak: 0 };
     store.wrong[axis] = [];
     saveStore();
